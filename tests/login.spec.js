@@ -21,7 +21,7 @@ test.describe("TS-1: Testing apa ini", () => {
   });
 
   // TC-1: contoh case 1 bukar
-  test("TC-1: contoh case 1 buka", async () => {
+  test("TC-1: Login with valid credential student", async () => {
     await loginPage.click_buttonLoginStudent();
     await loginPage.fill_inputEmail(dataLogin.email);
     await loginPage.fill_inputPassword(dataLogin.password);
