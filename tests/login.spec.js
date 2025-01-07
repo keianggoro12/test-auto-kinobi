@@ -43,6 +43,7 @@ test.describe("TS-1: Testing apa ini", () => {
       }
     } catch (error) {
       console.error("Error during cleanup:", error);
+      //test2
     }
   });
 });
