@@ -1,1 +1,5 @@
-{ "email": "juliardi+mentee2@kinobi.asia", "password": "Kinobi@12345" }
+{
+  "email": "aisha+autouser@kinobi.asia",
+  "invalid_password": "Kiboni@12345",
+  "password": "Kinobi@12345"
+}
