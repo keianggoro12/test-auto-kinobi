@@ -19,16 +19,21 @@ test.describe("TS-1: Testing apa ini", () => {
     await loginPage.openUrl(dataURL.URL);
     console.log("URL opened successfully.");
   });
-
+  //TC-2 new test case for invalid password
+  test("TC-2 Login with invalid password", async () => {
+    await loginPage.click_buttonLoginStudent();
+    await loginPage.fill_inputEmail(dataLogin.email);
+    await loginPage.fill_inputinvalidPassword(dataLogin.invalid_password);
+    await loginPage.click_buttonSignIn();
+    await loginPage.visible_toastinvalidPassword();
+  });
   // TC-1: contoh case 1 bukar
   test("TC-1: Login with valid credential student", async () => {
-    await loginPage.click_buttonLoginStudent();
     await loginPage.fill_inputEmail(dataLogin.email);
     await loginPage.fill_inputPassword(dataLogin.password);
     await loginPage.click_buttonSignIn();
     await loginPage.visible_toastSuccessLogin();
   });
-
   // Menutup semua resource setelah semua tes selesai
   test.afterAll(async () => {
     try {

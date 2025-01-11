@@ -17,8 +17,11 @@ exports.stepLogin = class stepLogin {
     this.toast_successLogin = page.getByText(
       "Welcome back! You have successfully logged in."
     );
+    this.toast_invalidPassword = page.getByText(
+      "Encountered error logging in: Invalid email/password."
+    );
   }
-
+  // kurung [{()}] action yg mana duluan
   // ==========================================================================================
 
   // TULIS DISINI METHOD NYA
@@ -39,10 +42,17 @@ exports.stepLogin = class stepLogin {
   async fill_inputPassword(password) {
     await this.password_field.fill(password);
   }
+  async fill_inputinvalidPassword(invalid_password) {
+    await this.password_field.fill(invalid_password);
+  }
+
   async click_buttonSignIn() {
     await this.signin_button.click();
   }
   async visible_toastSuccessLogin() {
     await expect(this.toast_successLogin).toBeVisible();
+  }
+  async visible_toastinvalidPassword() {
+    await expect(this.toast_invalidPassword).toBeVisible();
   }
 };
