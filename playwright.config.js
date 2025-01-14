@@ -11,45 +11,38 @@ const { defineConfig, devices } = require("@playwright/test");
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
-  testDir: "./tests",
-  /* Run tests in files in parallel */
-  fullyParallel: false,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: 1,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  testDir: "./tests", // Folder untuk file tes
+  fullyParallel: false, // Menjalankan tes di file secara paralel
+  forbidOnly: !!process.env.CI, // Menangani pengaturan untuk CI/CD (mencegah penggunaan test.only)
+  retries: process.env.CI ? 2 : 0, // Retry pada CI/CD
+  workers: 1, // Menentukan jumlah worker
+  reporter: "html", // Laporan hasil tes dalam format HTML
   use: {
-    // Mengumpulkan trace saat tes gagal dan mencoba ulang
-    trace: "on-first-retry",
-    screenshot: "on", // Ambil screenshot untuk setiap tes yang gagal
-    headless: false, // Nonaktifkan mode headless untuk melihat aksi di browser
+    trace: "on-first-retry", // Mengumpulkan trace jika tes gagal dan dicoba ulang
+    screenshot: "on", // Ambil screenshot jika tes gagal
+    headless: false, // Menonaktifkan headless untuk melihat tes di browser
     userAgent:
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36", // User-Agent yang valid
   },
 
-  /* Configure projects for major browsers */
+  /* Konfigurasi proyek untuk browser utama */
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: { ...devices["Desktop Chrome"] }, // Menggunakan konfigurasi perangkat desktop Chrome
     },
 
     {
       name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
+      use: { ...devices["Desktop Firefox"] }, // Menggunakan konfigurasi perangkat desktop Firefox
     },
 
     {
       name: "webkit",
-      use: { ...devices["Desktop Safari"] },
+      use: { ...devices["Desktop Safari"] }, // Menggunakan konfigurasi perangkat desktop Safari
     },
 
-    /* Test against mobile viewports. */
+    /* Tes terhadap tampilan mobile */
     // {
     //   name: 'Mobile Chrome',
     //   use: { ...devices['Pixel 5'] },
@@ -59,7 +52,7 @@ module.exports = defineConfig({
     //   use: { ...devices['iPhone 12'] },
     // },
 
-    /* Test against branded browsers. */
+    /* Tes terhadap browser branded */
     // {
     //   name: 'Microsoft Edge',
     //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
@@ -70,7 +63,7 @@ module.exports = defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
+  /* Jalankan server pengembangan lokal sebelum memulai tes */
   // webServer: {
   //   command: 'npm run start',
   //   url: 'http://127.0.0.1:3000',
