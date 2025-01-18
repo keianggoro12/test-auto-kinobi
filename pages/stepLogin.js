@@ -66,12 +66,15 @@ exports.stepLogin = class stepLogin {
 
   async click_threeDotsButton() {
     await this.three_dots_button.waitFor({ state: "visible", timeout: 5000 });
-    await expect(this.three_dots_button).click();
+    await this.three_dots_button.click();
   }
   async click_logout() {
-    await expect(this.logout_button).click();
+    await this.logout_button.click();
   }
   async visible_buttonLogin() {
     await expect(this.login_button).toBeVisible();
+  }
+  async disabled_buttonLogin(){
+    await expect(this.signin_button).toBeDisabled();
   }
 };
