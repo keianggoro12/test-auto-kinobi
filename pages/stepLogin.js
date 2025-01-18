@@ -17,6 +17,14 @@ exports.stepLogin = class stepLogin {
     this.toast_successLogin = page.getByText(
       "Welcome back! You have successfully logged in."
     );
+    this.three_dots_button = page.locator(
+      "//i[contains(@class, 'mdi-dots-horizontal')]"
+    );
+    this.logout_button = page.locator(
+      "//div[contains(@class, 'menu-item') and .//i[contains(@class, 'mdi-logout')]]"
+    );
+    //i[contains(@class, 'mdi-dots-horizontal')]
+
     this.toast_invalidPassword = page.getByText(
       "Encountered error logging in: Invalid email/password."
     );
@@ -54,5 +62,16 @@ exports.stepLogin = class stepLogin {
   }
   async visible_toastinvalidPassword() {
     await expect(this.toast_invalidPassword).toBeVisible();
+  }
+
+  async click_threeDotsButton() {
+    await this.three_dots_button.waitFor({ state: "visible", timeout: 5000 });
+    await expect(this.three_dots_button).click();
+  }
+  async click_logout() {
+    await expect(this.logout_button).click();
+  }
+  async visible_buttonLogin() {
+    await expect(this.login_button).toBeVisible();
   }
 };

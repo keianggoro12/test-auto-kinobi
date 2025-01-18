@@ -37,6 +37,13 @@ test.describe("TS-1: Login", () => {
     await loginPage.visible_toastSuccessLogin();
   });
 
+  // TC-3: Test untuk logout
+  test("TC-3: Test log out as student", async () => {
+    await loginPage.click_threeDotsButton();
+    await loginPage.click_logout();
+    await loginPage.click.visible_buttonLogin();
+  });
+
   // Menutup semua resource setelah semua tes selesai
   test.afterAll(async () => {
     try {
