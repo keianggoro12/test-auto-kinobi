@@ -31,20 +31,28 @@ test.describe("TS-2: Resume", () => {
     await loginPage.visible_toastSuccessLogin();
   });
 
+  // Test Case 0: Buat resume baru tanpa title
+  test("TC-0: Create resume with blank title", async () => {
+    await resumePage.handle_btnResumeBuilder();
+    await resumePage.handle_btnNewResume();
+    await resumePage.handle_btnNewResumeBlank();
+    await resumePage.verifyToastResumeCreatedVisible();
+    await resumePage.verify_modal_ResumeTitle();
+    await resumePage.click_saveResumeTitle();
+    await resumePage.verify_blankFieldResumeTitle();
+  });
+
   // Test Case 1: Buat Resume Baru
   test("TC-1: Create a new resume", async () => {
     const title = dataResume["Resume Title"];
 
     // Buat resume baru
-    await resumePage.handle_btnResumeBuilder();
-    await resumePage.handle_btnNewResume();
-    await resumePage.handle_btnNewResumeBlank();
-    await resumePage.verifyToastResumeCreatedVisible();
     await resumePage.fill_inputResumeTitle(title);
+    await resumePage.click_saveResumeTitle();
     await resumePage.visible_toastSuccessResumeCreated();
   });
 
-  // Test Case 2: Isi Personal Details
+  //Test Case 2: Isi Personal Details
   test("TC-2: Fill personal details", async () => {
     const fullName = dataResume["Personal Information"].Name;
     const phoneNumber = dataResume["Personal Information"].PhoneNumber;

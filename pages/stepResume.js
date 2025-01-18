@@ -14,6 +14,7 @@ exports.stepResume = class stepResume {
 
     //resume title modal
     this.modal_resumeTitle = page.getByText("Give your resume a title");
+    this.blank_field_resumeTitle = page.getByText("Title is required");
     this.field_resumeTitle = page.locator('//input[@required="required"]');
     this.btn_saveResumeTitle = page.getByRole("button", {
       name: "Save",
@@ -48,11 +49,24 @@ exports.stepResume = class stepResume {
     await this.toast_resumeCreated.waitFor({ state: "visible", timeout: 5000 });
     await expect(this.toast_resumeCreated).toBeVisible();
   }
-
+  async verify_blankFieldResumeTitle() {
+    await this.blank_field_resumeTitle.waitFor({
+      state: "visible",
+      timeout: 5000,
+    });
+    await expect(this.blank_field_resumeTitle).toBeVisible();
+  }
+  async click_saveResumeTitle() {
+    await this.btn_saveResumeTitle.waitFor({ state: "visible", timeout: 5000 });
+    await this.btn_saveResumeTitle.click();
+  }
   async fill_inputResumeTitle(resumeTitle) {
     await this.modal_resumeTitle.waitFor({ state: "visible", timeout: 5000 });
     await this.field_resumeTitle.fill(resumeTitle);
-    this.btn_saveResumeTitle.click();
+  }
+  async verify_modal_ResumeTitle() {
+    await this.field_resumeTitle.click();
+    await this.modal_resumeTitle.waitFor({ state: "visible", timeout: 5000 });
   }
   async visible_toastSuccessResumeCreated() {
     await this.toast_resumeTitleSaved.waitFor({
