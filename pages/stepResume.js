@@ -61,6 +61,10 @@ exports.stepResume = class stepResume {
     });
     await expect(this.toast_resumeTitleSaved).toBeVisible();
   }
+  async click_buttonSaveAndContinue() {
+    await this.btn_continueResume.waitFor({ state: "visible", timeout: 5000 });
+    await this.btn_continueResume.click();
+  }
 };
 
 exports.stepResume_personalDetails = class stepResume_personalDetails {
@@ -149,5 +153,129 @@ exports.stepResume_personalDetails = class stepResume_personalDetails {
 
   async visible_toastSuccessUploadImage() {
     await expect(this.toast_successUploadImage).toBeVisible();
+  }
+};
+
+exports.stepResume_workExperiences = class stepResume_workExperiences {
+  constructor(
+    page,
+    monthStartDate,
+    yearStartDate,
+    monthEndDate,
+    yearEndDate,
+    companyName,
+    companyLocation,
+    role,
+    companyDescription,
+    roleDescription
+  ) {
+    this.page = page;
+    this.btn_addExperience = page.getByRole("button", {
+      name: "Add experience",
+    });
+    this.input_companyName = page.locator("//input[@id='company-name']");
+    this.input_role = page.locator("//input[@id='job-title']");
+    this.input_companyLocation = page.locator(
+      "//input[@id='company-location']"
+    );
+    this.input_companyDescription = page.locator(
+      "//textarea[@id='company-description']"
+    );
+    this.option_monthStartDate = page.locator(
+      "//div[normalize-space()='Work Experiences']/ancestor::div[@class='container']/descendant::input[@id='start-date-month']"
+    );
+    this.select_monthStartDate = page.getByRole("option", {
+      name: monthStartDate,
+    });
+    this.option_yearStartDate = page.locator(
+      "//div[normalize-space()='Work Experiences']/ancestor::div[@class='container']/descendant::input[@id='start-date-year']"
+    );
+    this.select_yearStartDate = page.getByRole("option", {
+      name: yearStartDate,
+    });
+    this.option_monthEndDate = page.locator(
+      "//div[normalize-space()='Work Experiences']/ancestor::div[@class='container']/descendant::input[@id='end-date-month']"
+    );
+    this.select_monthEndDate = page.getByRole("option", { name: monthEndDate });
+    this.option_yearEndDate = page.locator(
+      "//div[normalize-space()='Work Experiences']/ancestor::div[@class='container']/descendant::input[@id='end-date-year']"
+    );
+    this.select_yearEndDate = page.getByRole("option", { name: yearEndDate });
+    this.input_roleDescription = page.locator(
+      "#elaboration-list-professional_experience0"
+    );
+    this.txt_previewCompanyName = page
+      .locator("#pdf")
+      .locator("text=" + companyName);
+    this.txt_previewCompanyLocation = page
+      .locator("table.body-title-country-date")
+      .locator("span.body-country", { hasText: companyLocation });
+    this.txt_previewRole = page.getByText(role, { exact: true });
+    this.txt_previewCompanyDescription = page.getByText(companyDescription, {
+      exact: true,
+    });
+    this.txt_previewRoleDescription = page
+      .locator("#pdf")
+      .getByText(roleDescription, { exact: true });
+  }
+
+  async click_buttonAddExperience() {
+    await this.btn_addExperience.click();
+  }
+
+  async fill_inputCompanyName(companyName) {
+    await this.input_companyName.fill(companyName);
+  }
+
+  async fill_inputRole(role) {
+    await this.input_role.fill(role);
+  }
+
+  async fill_inputCompanyLocation(companyLocation) {
+    await this.input_companyLocation.fill(companyLocation);
+  }
+
+  async fill_inputCompanyDescription(companyDescription) {
+    await this.input_companyDescription.fill(companyDescription);
+  }
+
+  async fill_inputStartDate() {
+    await this.option_monthStartDate.click();
+    await this.select_monthStartDate.click();
+
+    await this.option_yearStartDate.click();
+    await this.select_yearStartDate.click();
+  }
+
+  async fill_inputEndDate() {
+    await this.option_monthEndDate.click();
+    await this.select_monthEndDate.click();
+
+    await this.option_yearEndDate.click();
+    await this.select_yearEndDate.click();
+  }
+
+  async fill_inputRoleDescription(roleDescription) {
+    await this.input_roleDescription.fill(roleDescription);
+  }
+
+  async visible_previewCompanyName() {
+    await expect(this.txt_previewCompanyName).toBeVisible();
+  }
+
+  async visible_previewCompanyLocation() {
+    await expect(this.txt_previewCompanyLocation).toBeVisible();
+  }
+
+  async visible_previewRole() {
+    await expect(this.txt_previewRole).toBeVisible();
+  }
+
+  async visible_previewCompanyDescription() {
+    await expect(this.txt_previewCompanyDescription).toBeVisible();
+  }
+
+  async visible_previewRoleDescription() {
+    await expect(this.txt_previewRoleDescription).toBeVisible();
   }
 };
