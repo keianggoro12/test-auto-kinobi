@@ -3,82 +3,71 @@ const { expect } = require("@playwright/test");
 exports.stepTou = class stepTou {
   constructor(page) {
     this.page = page;
-
-    // Modal TOU
-    this.modal_tou = page.locator(".v-dialog.v-dialog--active"); // Selector untuk modal TOU
-
-    // Panel dan checkbox TOU
-    this.touPanels = page.locator(".v-expansion-panel"); // Selector untuk semua panel TOU
+    this.modal_tou = page.locator(".v-dialog.v-dialog--active");
+    this.touPanels = page.locator(".v-expansion-panel");
     this.btn_saveContinue = page.locator(
       "//button[span[contains(text(), 'Save & Continue')]]"
-    ); // Tombol Save & Continue
-
-    // Ikon checkbox dalam panel TOU
-    this.icon_checkbox_blank = ".v-input--selection-controls__ripple"; // Ikon checkbox belum dicentang
+    );
+    this.icon_checkbox_blank = ".v-input--selection-controls__ripple";
   }
 
   async handle_termsOfUse() {
-    // Tunggu modal Terms of Use muncul dan pastikan terlihat
     try {
-      console.log("Menunggu modal Terms of Use muncul...");
+      console.log("Waiting for the Terms of Use modal to appear...");
       await this.page.waitForSelector(".v-dialog.v-dialog--active", {
-        state: "visible", // Menunggu modal muncul dan terlihat
-        timeout: 5000, // Timeout 5 detik
+        state: "visible", // Waiting for the modal to appear and be visible
+        timeout: 5000, // Timeout 5 seconds
       });
-      console.log("Modal Terms of Use muncul.");
+      console.log("Terms of Use modal appeared.");
     } catch (error) {
       console.log(
-        "Modal Terms of Use tidak muncul dalam waktu yang ditentukan."
+        "Terms of Use modal did not appear within the specified time."
       );
-      return; // Jika modal tidak muncul dalam waktu yang ditentukan, lanjutkan
+      return; // If the modal doesn't appear within the specified time, continue
     }
 
-    // Pastikan modal TOU ditemukan dan terlihat
     if (await this.modal_tou.isVisible()) {
-      console.log("Modal TOU ditemukan dan terlihat.");
-
-      // Tunggu panel TOU terlihat sebelum ambil
+      console.log("TOU modal found and visible.");
       try {
-        console.log("Menunggu panel TOU terlihat...");
+        console.log("Waiting for TOU panels to appear...");
         await this.page.waitForSelector(".v-expansion-panel", {
-          state: "visible", // Menunggu panel-panel TOU muncul dan terlihat
-          timeout: 5000, // Timeout 5 detik
+          state: "visible", // Waiting for TOU panels to appear and be visible
+          timeout: 5000, // Timeout 5 seconds
         });
-        console.log("Panel TOU terlihat.");
+        console.log("TOU panels appeared.");
       } catch (error) {
-        console.log("Panel TOU tidak muncul dalam waktu yang ditentukan.");
-        return; // Jika panel tidak muncul dalam waktu yang ditentukan, lanjutkan
+        console.log("TOU panels did not appear within the specified time.");
+        return; // If the panels don't appear within the specified time, continue
       }
 
-      // Ambil semua panel TOU
+      // Get all TOU panels
       const panels = await this.touPanels.all();
-      console.log(`Ditemukan ${panels.length} panel TOU.`);
+      console.log(`Found ${panels.length} TOU panels.`);
 
       if (panels.length === 0) {
-        console.log("Tidak ada panel TOU, lanjutkan proses.");
-        return; // Jika tidak ada panel TOU, lanjutkan
+        console.log("No TOU panels found, continuing process.");
+        return; // If no TOU panels, continue
       }
 
-      // Loop untuk mengklik panel TOU dan checkbox di dalamnya
+      // Loop through to click the TOU panels and check the checkboxes inside them
       for (const panel of panels) {
-        // Klik panel untuk membuka konten
+        // Click panel to open content
         await panel.click();
-        console.log("Panel TOU diklik.");
+        console.log("TOU panel clicked.");
 
-        // Klik ikon checkbox untuk mencentang
+        // Click the checkbox icon to check it
         await panel.locator(this.icon_checkbox_blank).click();
-        console.log("Checkbox dicentang.");
+        console.log("Checkbox checked.");
       }
 
-      // Periksa dan klik tombol Save & Continue jika bisa
       if (await this.btn_saveContinue.isEnabled()) {
         await this.btn_saveContinue.click();
-        console.log("Tombol Save & Continue diklik.");
+        console.log("Save & Continue button clicked.");
       } else {
-        console.log("Tombol Save & Continue tidak aktif, tidak bisa diklik.");
+        console.log("Save & Continue button is not enabled, cannot click.");
       }
     } else {
-      console.log("Modal Terms of Use tidak terlihat, langsung lanjut.");
+      console.log("Terms of Use modal not visible, proceeding directly.");
     }
   }
 };

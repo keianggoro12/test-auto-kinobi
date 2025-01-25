@@ -30,12 +30,12 @@ test.describe("TS-1: Login", () => {
   });
 
   // // TC-2: Test untuk login dengan password tidak valid
-  // test("TC-2: Login with invalid password", async () => {
-  //   await loginPage.fill_inputEmail(dataLogin.email);
-  //   await loginPage.fill_inputinvalidPassword(dataLogin.invalid_password);
-  //   await loginPage.click_buttonSignIn();
-  //   await loginPage.visible_toastinvalidPassword();
-  // });
+  test("TC-2: Login with invalid password", async () => {
+    await loginPage.fill_inputEmail(dataLogin.email);
+    await loginPage.fill_inputinvalidPassword(dataLogin.invalid_password);
+    await loginPage.click_buttonSignIn();
+    await loginPage.visible_toastinvalidPassword();
+  });
 
   // TC-3: Test untuk login dengan kredensial valid
   test("TC-3: Login with valid credentials as student", async () => {

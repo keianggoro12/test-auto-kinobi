@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { stepLogin } from "../pages/stepLogin";
+import { stepTou } from "../pages/stepTou";
 import {
   stepResume,
   stepResume_personalDetails,
@@ -11,7 +12,7 @@ const dataLogin = require("../testData/dataLogin.json");
 const dataResume = require("../testData/dataResume.json");
 
 test.describe("TS-2: Resume", () => {
-  let page, context, loginPage, resumePage, personalPage, workPage;
+  let page, context, loginPage, resumePage, personalPage, workPage, touPanel;
   const personalInfo = dataResume["Personal Information"];
   const workInfo = dataResume["Work Experiences"];
 
@@ -21,6 +22,7 @@ test.describe("TS-2: Resume", () => {
 
     // Inisialisasi objek halaman
     loginPage = new stepLogin(page);
+    touPanel = new stepTou(page);
     resumePage = new stepResume(page);
     personalPage = new stepResume_personalDetails(
       page,
@@ -51,6 +53,7 @@ test.describe("TS-2: Resume", () => {
     await loginPage.fill_inputPassword(dataLogin.password);
     await loginPage.click_buttonSignIn();
     await loginPage.visible_toastSuccessLogin();
+    await touPanel.handle_termsOfUse();
   });
 
   // Test Case 0: Buat resume baru tanpa title
