@@ -74,7 +74,7 @@ exports.stepLogin = class stepLogin {
   async visible_buttonLogin() {
     await expect(this.login_button).toBeVisible();
   }
-  async disabled_buttonLogin(){
+  async disabled_buttonLogin() {
     await expect(this.signin_button).toBeDisabled();
   }
 };
