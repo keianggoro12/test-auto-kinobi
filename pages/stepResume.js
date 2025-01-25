@@ -1,4 +1,5 @@
 const { expect } = require("@playwright/test");
+const { createInbox, getVerificationLink } = require("../helper/emailAPI");
 
 exports.stepResume = class stepResume {
   constructor(page) {
