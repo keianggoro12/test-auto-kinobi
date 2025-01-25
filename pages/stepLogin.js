@@ -78,3 +78,35 @@ exports.stepLogin = class stepLogin {
     await expect(this.signin_button).toBeDisabled();
   }
 };
+
+exports.stepRegister = class stepRegister {
+  constructor(page) {
+    //tulis disini element nya
+    this.page = page;
+    this.signup_button = page.getByRole("button", { name: "SIGN UP" });
+    this.signup_student_button = page.getByRole("menuitem", {
+      name: "Sign up as Student",
+    });
+    this.firstName_field = page.getByRole();
+    this.lastName_field = page.getByRole();
+    this.registrationEmail_field = page.getByRole("textbox", {
+      name: "Email Address",
+    });
+
+    this.verifyEmail_button = page.getByRole("button", { name: "VERIFY" });
+    this.unverifyEmail_notif = page.getByText(
+      "Email is unverified. Please verify first."
+    );
+    this.verifyEmailSent_notif = page.getByText("Email Verification sent!");
+    this.refreshEmail_button = page.getByRole("button", { name: "REFRESH" });
+    this.verifiedEmail_notif = page.getByText("Email has been verified!");
+  }
+  // kurung [{()}] action yg mana duluan
+  // ==========================================================================================
+
+  // TULIS DISINI METHOD NYA
+  async click_buttonSignUp() {
+    await this.signup_button.click();
+    await this.signup_student_button.click();
+  }
+};

@@ -26,6 +26,9 @@ exports.stepResume = class stepResume {
     this.btn_continueResume = page.getByRole("button", {
       name: "Save & Continue",
     });
+    this.threedot_ResumeCard = page.locator(
+      ".v-btn__content i.mdi-dots-vertical"
+    );
 
     //
   }
@@ -78,6 +81,16 @@ exports.stepResume = class stepResume {
   async click_buttonSaveAndContinue() {
     await this.btn_continueResume.waitFor({ state: "visible", timeout: 5000 });
     await this.btn_continueResume.click();
+  }
+  async click_randomOptionResumeCard() {
+    const count = await this.threedot_ResumeCard.count();
+
+    if (count > 0) {
+      const randomIndex = Math.floor(Math.random() * count);
+      await this.threedot_ResumeCard.nth(randomIndex).click();
+    } else {
+      console.log("No resume options available.");
+    }
   }
 };
 

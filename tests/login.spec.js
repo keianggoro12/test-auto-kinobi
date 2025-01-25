@@ -1,15 +1,12 @@
 import { test, expect } from "@playwright/test";
-import { stepLogin } from "../pages/stepLogin";
+import { stepLogin, stepRegister } from "../pages/stepLogin";
 import { stepTou } from "../pages/stepTou";
 
 const dataURL = require("../testData/dataURL.json");
 const dataLogin = require("../testData/dataLogin.json");
 
 test.describe("TS-1: Login", () => {
-  let loginPage;
-  let context;
-  let page;
-  let touPanel;
+  let page, context, loginPage, touPanel;
 
   // Membuat context dan page sebelum semua tes
   test.beforeAll(async ({ browser }) => {
@@ -51,6 +48,45 @@ test.describe("TS-1: Login", () => {
     await loginPage.click_threeDotsButton();
     await loginPage.click_logout();
     await loginPage.visible_buttonLogin();
+  });
+
+  // Menutup semua resource setelah semua tes selesai
+  test.afterAll(async () => {
+    try {
+      console.log("Closing all resources...");
+      if (page) {
+        await page.close();
+        console.log("Page closed.");
+      }
+      if (context) {
+        await context.close();
+        console.log("Context closed.");
+      }
+    } catch (error) {
+      console.error("Error during cleanup:", error.message);
+    }
+  });
+});
+
+test.describe("TS-2: Register", () => {
+  let page, context, loginPage, touPanel, registerPage;
+
+  // Membuat context dan page sebelum semua tes
+  test.beforeAll(async ({ browser }) => {
+    context = await browser.newContext();
+    page = await context.newPage();
+    loginPage = new stepLogin(page);
+    touPanel = new stepTou(page);
+    registerPage = new stepRegister(page);
+
+    console.log("Opening URL...");
+    await loginPage.openUrl(dataURL.URL);
+    console.log("URL opened successfully.");
+  });
+
+  // TC-1: Test untuk login dengan disable login - no data
+  test("TC-1: Register", async () => {
+    await registerPage.click_buttonSignUp();
   });
 
   // Menutup semua resource setelah semua tes selesai
