@@ -307,3 +307,138 @@ exports.stepResume_workExperiences = class stepResume_workExperiences {
     await expect(this.txt_previewRoleDescription).toBeVisible();
   }
 };
+exports.stepResume_education = class stepResume_education {
+  constructor(
+    page,
+    schoolStartMonth,
+    schoolStartYear,
+    schoolEndMonth,
+    schoolEndYear,
+    educationLevel,
+    schoolName,
+    schoolLocation,
+    major,
+    GPA,
+    maxGPA,
+    schoolActivity
+  ) {
+    this.page = page;
+
+    this.btn_addEducation = page.getByRole("button", { name: "Add education" });
+    this.input_schoolName = page.locator("//input[@id='school-name']");
+    this.input_schoolLocation = page.locator("//input[@id='school-location']");
+    this.option_schoolStartMonth = page.locator(
+      "//div[normalize-space()='Education Level']/ancestor::div[@class='container']/descendant::input[@id='start-date-month']"
+    );
+    this.select_schoolStartMonth = page.getByRole("option", {
+      name: schoolStartMonth,
+    });
+    this.option_schoolStartYear = page.locator(
+      "//div[normalize-space()='Education Level']/ancestor::div[@class='container']/descendant::input[@id='start-date-year']"
+    );
+    this.select_schoolStartYear = page.getByRole("option", {
+      name: schoolStartYear,
+    });
+    this.option_schoolEndMonth = page.locator(
+      "//input[@id='graduation-date-month']"
+    );
+    this.select_schoolEndMonth = page.getByRole("option", {
+      name: schoolEndMonth,
+    });
+    this.option_schoolEndYear = page.locator(
+      "//input[@id='graduation-date-year']"
+    );
+    this.select_schoolEndYear = page.getByRole("option", {
+      name: schoolEndYear,
+    });
+    this.option_educationLevel = page.locator("//input[@id='education-level']");
+    this.select_educationLevel = page.getByText(educationLevel);
+    this.input_Major = page.getByPlaceholder("Information System", {
+      exact: false,
+    });
+    this.input_GPA = page.locator("//input[@id='gpa-recommended']");
+    this.input_maxGPA = page.locator("//input[@id='max-gpa']");
+    this.input_schoolActivity = page.locator("#elaboration-list-education0");
+    this.txt_previewSchoolName = page.getByText(schoolName, { exact: true });
+    this.txt_previewSchoolLocation = page.getByText("- " + schoolLocation);
+    this.txt_previewSchoolPeriod = page.getByRole("cell", {
+      name:
+        schoolStartMonth +
+        " " +
+        schoolStartYear +
+        " - " +
+        schoolEndMonth +
+        " " +
+        schoolEndYear,
+    });
+    this.txt_previewSchoolDetails = page.getByText(
+      educationLevel + " of " + major + ", " + GPA + "/" + maxGPA
+    );
+    this.txt_previewSchoolActivity = page
+      .locator("#pdf")
+      .getByText(schoolActivity);
+  }
+
+  async click_buttonAddEducation() {
+    await this.btn_addEducation.click();
+  }
+
+  async fill_inputSchoolName(schoolName) {
+    await this.input_schoolName.fill(schoolName);
+    await this.input_schoolName.press("Enter");
+  }
+
+  async fill_inputSchoolLocation(schoolLocation) {
+    await this.input_schoolLocation.fill(schoolLocation);
+  }
+
+  async fill_inputSchoolStartDate() {
+    await this.option_schoolStartMonth.click();
+    await this.select_schoolStartMonth.click();
+
+    await this.option_schoolStartYear.click();
+    await this.select_schoolStartYear.click();
+  }
+
+  async fill_inputSchoolEndDate() {
+    await this.option_schoolEndMonth.click();
+    await this.select_schoolEndMonth.click();
+
+    await this.option_schoolEndYear.click();
+    await this.select_schoolEndYear.click();
+  }
+
+  async fill_inputEducationLevel() {
+    await this.option_educationLevel.click();
+    await this.select_educationLevel.click();
+  }
+
+  async fill_inputMajor(major) {
+    await this.input_Major.fill(major);
+  }
+
+  async fill_inputGPA(GPA, maxGPA) {
+    await this.input_GPA.fill(GPA);
+    await this.input_maxGPA.fill(maxGPA);
+  }
+
+  async fill_inputSchoolActivity(schoolActivity) {
+    await this.input_schoolActivity.fill(schoolActivity);
+  }
+
+  async visible_previewSchoolName() {
+    await expect(this.txt_previewSchoolName).toBeVisible();
+  }
+
+  async visible_previewSchoolPeriod() {
+    await expect(this.txt_previewSchoolPeriod).toBeVisible();
+  }
+
+  async visible_previewSchoolDetails() {
+    await expect(this.txt_previewSchoolDetails).toBeVisible();
+  }
+
+  async visible_previewSchoolActivity() {
+    await expect(this.txt_previewSchoolActivity).toBeVisible();
+  }
+};

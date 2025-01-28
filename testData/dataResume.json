@@ -19,5 +19,18 @@
     "monthEndDate": "Aug",
     "yearEndDate": "2024",
     "roleDescription": "Collect and interpret financial data from various sources, including financial statements, budgets, and economic indicators. Analyze historical and current financial performance to identify trends, patterns, and potential areas of improvement."
+  },
+  "Education": {
+    "SchoolName": "Kinobi University",
+    "SchoolLocation": "Singapore",
+    "SchoolStartMonth": "Aug",
+    "SchoolStartYear": "2018",
+    "SchoolEndMonth": "Jun",
+    "SchoolEndYear": "2022",
+    "EducationLevel": "Bachelor",
+    "Major": "Banking and Finance",
+    "GPA": "3.92",
+    "MaxGPA": "4.00",
+    "SchoolActivity": "Dean List Honorable Mention Spring 2020"
   }
 }

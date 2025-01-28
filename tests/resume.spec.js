@@ -5,6 +5,7 @@ import {
   stepResume,
   stepResume_personalDetails,
   stepResume_workExperiences,
+  stepResume_education,
 } from "../pages/stepResume";
 
 const dataURL = require("../testData/dataURL.json");
@@ -12,9 +13,17 @@ const dataLogin = require("../testData/dataLogin.json");
 const dataResume = require("../testData/dataResume.json");
 
 test.describe("TS-2: Resume", () => {
-  let page, context, loginPage, resumePage, personalPage, workPage, touPanel;
+  let page,
+    context,
+    loginPage,
+    resumePage,
+    personalPage,
+    workPage,
+    educationPage,
+    touPanel;
   const personalInfo = dataResume["Personal Information"];
   const workInfo = dataResume["Work Experiences"];
+  const educationInfo = dataResume["Education"];
 
   test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
@@ -41,6 +50,20 @@ test.describe("TS-2: Resume", () => {
       workInfo.Role,
       workInfo.CompanyDescription,
       workInfo.roleDescription
+    );
+    educationPage = new stepResume_education(
+      page,
+      educationInfo.SchoolStartMonth,
+      educationInfo.SchoolStartYear,
+      educationInfo.SchoolEndMonth,
+      educationInfo.SchoolEndYear,
+      educationInfo.EducationLevel,
+      educationInfo.SchoolName,
+      educationInfo.SchoolLocation,
+      educationInfo.Major,
+      educationInfo.GPA,
+      educationInfo.MaxGPA,
+      educationInfo.SchoolActivity
     );
 
     console.log("Opening URL...");
@@ -125,59 +148,30 @@ test.describe("TS-2: Resume", () => {
     await resumePage.click_buttonSaveAndContinue();
   });
 
-  test.afterAll(async () => {
-    try {
-      console.log("Closing all resources...");
-      if (page) {
-        await page.close();
-        console.log("Page closed.");
-      }
-      if (context) {
-        await context.close();
-        console.log("Context closed.");
-      }
-    } catch (error) {
-      console.error("Error during cleanup:", error.message);
-    }
-  });
-});
+  // Test Case 4: Isi Education Section
+  test("TC-4: Education section", async () => {
+    console.log("Filling education details...");
 
-test.describe("TS-3: Resume Option", () => {
-  let page, context, loginPage, resumePage, personalPage, workPage, touPanel;
-  const personalInfo = dataResume["Personal Information"];
-  const workInfo = dataResume["Work Experiences"];
+    await educationPage.click_buttonAddEducation();
+    await educationPage.fill_inputSchoolName(educationInfo.SchoolName);
+    await educationPage.fill_inputSchoolLocation(educationInfo.SchoolLocation);
+    await educationPage.fill_inputSchoolStartDate();
+    await educationPage.fill_inputSchoolEndDate();
+    await educationPage.fill_inputEducationLevel();
+    await educationPage.fill_inputMajor(educationInfo.Major);
+    await educationPage.fill_inputGPA(educationInfo.GPA, educationInfo.MaxGPA);
+    await educationPage.fill_inputSchoolActivity(educationInfo.SchoolActivity);
 
-  test.beforeAll(async ({ browser }) => {
-    context = await browser.newContext();
-    page = await context.newPage();
+    console.log("Education details filled successfully.");
 
-    // Inisialisasi objek halaman
-    loginPage = new stepLogin(page);
-    touPanel = new stepTou(page);
-    resumePage = new stepResume(page);
+    console.log("Verifying education preview...");
+    await educationPage.visible_previewSchoolName();
+    await educationPage.visible_previewSchoolPeriod();
+    await educationPage.visible_previewSchoolDetails();
+    await educationPage.visible_previewSchoolActivity();
+    console.log("Education preview verified successfully.");
 
-    console.log("Opening URL...");
-    await loginPage.openUrl(dataURL.URL);
-    console.log("URL opened successfully.");
-
-    // Login ke aplikasi
-    await loginPage.click_buttonLoginStudent();
-    await loginPage.fill_inputEmail(dataLogin.email);
-    await loginPage.fill_inputPassword(dataLogin.password);
-    await loginPage.click_buttonSignIn();
-    await loginPage.visible_toastSuccessLogin();
-    await touPanel.handle_termsOfUse();
-  });
-
-  // Test Case 0: Buat resume baru tanpa title
-  test("TC-0: Create resume with blank title", async () => {
-    await resumePage.handle_btnResumeBuilder();
-    await resumePage.handle_btnNewResume();
-    await resumePage.handle_btnNewResumeBlank();
-    await resumePage.verifyToastResumeCreatedVisible();
-    await resumePage.verify_modal_ResumeTitle();
-    await resumePage.click_saveResumeTitle();
-    await resumePage.verify_blankFieldResumeTitle();
+    await resumePage.click_buttonSaveAndContinue();
   });
 
   test.afterAll(async () => {
@@ -196,3 +190,58 @@ test.describe("TS-3: Resume Option", () => {
     }
   });
 });
+
+// test.describe("TS-3: Resume Option", () => {
+//   let page, context, loginPage, resumePage, personalPage, workPage, touPanel;
+//   const personalInfo = dataResume["Personal Information"];
+//   const workInfo = dataResume["Work Experiences"];
+
+//   test.beforeAll(async ({ browser }) => {
+//     context = await browser.newContext();
+//     page = await context.newPage();
+
+//     // Inisialisasi objek halaman
+//     loginPage = new stepLogin(page);
+//     touPanel = new stepTou(page);
+//     resumePage = new stepResume(page);
+
+//     console.log("Opening URL...");
+//     await loginPage.openUrl(dataURL.URL);
+//     console.log("URL opened successfully.");
+
+//     // Login ke aplikasi
+//     await loginPage.click_buttonLoginStudent();
+//     await loginPage.fill_inputEmail(dataLogin.email);
+//     await loginPage.fill_inputPassword(dataLogin.password);
+//     await loginPage.click_buttonSignIn();
+//     await loginPage.visible_toastSuccessLogin();
+//     await touPanel.handle_termsOfUse();
+//   });
+
+//   // Test Case 0: Buat resume baru tanpa title
+//   test("TC-0: Create resume with blank title", async () => {
+//     await resumePage.handle_btnResumeBuilder();
+//     await resumePage.handle_btnNewResume();
+//     await resumePage.handle_btnNewResumeBlank();
+//     await resumePage.verifyToastResumeCreatedVisible();
+//     await resumePage.verify_modal_ResumeTitle();
+//     await resumePage.click_saveResumeTitle();
+//     await resumePage.verify_blankFieldResumeTitle();
+//   });
+
+//   test.afterAll(async () => {
+//     try {
+//       console.log("Closing all resources...");
+//       if (page) {
+//         await page.close();
+//         console.log("Page closed.");
+//       }
+//       if (context) {
+//         await context.close();
+//         console.log("Context closed.");
+//       }
+//     } catch (error) {
+//       console.error("Error during cleanup:", error.message);
+//     }
+//   });
+// });
