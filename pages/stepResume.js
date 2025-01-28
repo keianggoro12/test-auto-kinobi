@@ -1,4 +1,5 @@
 const { expect } = require("@playwright/test");
+const { createInbox, getVerificationLink } = require("../helper/emailAPI");
 
 exports.stepResume = class stepResume {
   constructor(page) {
@@ -14,6 +15,7 @@ exports.stepResume = class stepResume {
 
     //resume title modal
     this.modal_resumeTitle = page.getByText("Give your resume a title");
+    this.blank_field_resumeTitle = page.getByText("Title is required");
     this.field_resumeTitle = page.locator('//input[@required="required"]');
     this.btn_saveResumeTitle = page.getByRole("button", {
       name: "Save",
@@ -25,6 +27,9 @@ exports.stepResume = class stepResume {
     this.btn_continueResume = page.getByRole("button", {
       name: "Save & Continue",
     });
+    this.threedot_ResumeCard = page.locator(
+      ".v-btn__content i.mdi-dots-vertical"
+    );
 
     //
   }
@@ -48,11 +53,24 @@ exports.stepResume = class stepResume {
     await this.toast_resumeCreated.waitFor({ state: "visible", timeout: 5000 });
     await expect(this.toast_resumeCreated).toBeVisible();
   }
-
+  async verify_blankFieldResumeTitle() {
+    await this.blank_field_resumeTitle.waitFor({
+      state: "visible",
+      timeout: 5000,
+    });
+    await expect(this.blank_field_resumeTitle).toBeVisible();
+  }
+  async click_saveResumeTitle() {
+    await this.btn_saveResumeTitle.waitFor({ state: "visible", timeout: 5000 });
+    await this.btn_saveResumeTitle.click();
+  }
   async fill_inputResumeTitle(resumeTitle) {
     await this.modal_resumeTitle.waitFor({ state: "visible", timeout: 5000 });
     await this.field_resumeTitle.fill(resumeTitle);
-    this.btn_saveResumeTitle.click();
+  }
+  async verify_modal_ResumeTitle() {
+    await this.field_resumeTitle.click();
+    await this.modal_resumeTitle.waitFor({ state: "visible", timeout: 5000 });
   }
   async visible_toastSuccessResumeCreated() {
     await this.toast_resumeTitleSaved.waitFor({
@@ -60,6 +78,20 @@ exports.stepResume = class stepResume {
       timeout: 5000,
     });
     await expect(this.toast_resumeTitleSaved).toBeVisible();
+  }
+  async click_buttonSaveAndContinue() {
+    await this.btn_continueResume.waitFor({ state: "visible", timeout: 5000 });
+    await this.btn_continueResume.click();
+  }
+  async click_randomOptionResumeCard() {
+    const count = await this.threedot_ResumeCard.count();
+
+    if (count > 0) {
+      const randomIndex = Math.floor(Math.random() * count);
+      await this.threedot_ResumeCard.nth(randomIndex).click();
+    } else {
+      console.log("No resume options available.");
+    }
   }
 };
 
@@ -149,5 +181,264 @@ exports.stepResume_personalDetails = class stepResume_personalDetails {
 
   async visible_toastSuccessUploadImage() {
     await expect(this.toast_successUploadImage).toBeVisible();
+  }
+};
+
+exports.stepResume_workExperiences = class stepResume_workExperiences {
+  constructor(
+    page,
+    monthStartDate,
+    yearStartDate,
+    monthEndDate,
+    yearEndDate,
+    companyName,
+    companyLocation,
+    role,
+    companyDescription,
+    roleDescription
+  ) {
+    this.page = page;
+    this.btn_addExperience = page.getByRole("button", {
+      name: "Add experience",
+    });
+    this.input_companyName = page.locator("//input[@id='company-name']");
+    this.input_role = page.locator("//input[@id='job-title']");
+    this.input_companyLocation = page.locator(
+      "//input[@id='company-location']"
+    );
+    this.input_companyDescription = page.locator(
+      "//textarea[@id='company-description']"
+    );
+    this.option_monthStartDate = page.locator(
+      "//div[normalize-space()='Work Experiences']/ancestor::div[@class='container']/descendant::input[@id='start-date-month']"
+    );
+    this.select_monthStartDate = page.getByRole("option", {
+      name: monthStartDate,
+    });
+    this.option_yearStartDate = page.locator(
+      "//div[normalize-space()='Work Experiences']/ancestor::div[@class='container']/descendant::input[@id='start-date-year']"
+    );
+    this.select_yearStartDate = page.getByRole("option", {
+      name: yearStartDate,
+    });
+    this.option_monthEndDate = page.locator(
+      "//div[normalize-space()='Work Experiences']/ancestor::div[@class='container']/descendant::input[@id='end-date-month']"
+    );
+    this.select_monthEndDate = page.getByRole("option", { name: monthEndDate });
+    this.option_yearEndDate = page.locator(
+      "//div[normalize-space()='Work Experiences']/ancestor::div[@class='container']/descendant::input[@id='end-date-year']"
+    );
+    this.select_yearEndDate = page.getByRole("option", { name: yearEndDate });
+    this.input_roleDescription = page.locator(
+      "#elaboration-list-professional_experience0"
+    );
+    this.txt_previewCompanyName = page
+      .locator("#pdf")
+      .locator("text=" + companyName);
+    this.txt_previewCompanyLocation = page
+      .locator("table.body-title-country-date")
+      .locator("span.body-country", { hasText: companyLocation });
+    this.txt_previewRole = page.getByText(role, { exact: true });
+    this.txt_previewCompanyDescription = page.getByText(companyDescription, {
+      exact: true,
+    });
+    this.txt_previewRoleDescription = page
+      .locator("#pdf")
+      .getByText(roleDescription, { exact: true });
+  }
+
+  async click_buttonAddExperience() {
+    await this.btn_addExperience.click();
+  }
+
+  async fill_inputCompanyName(companyName) {
+    await this.input_companyName.fill(companyName);
+  }
+
+  async fill_inputRole(role) {
+    await this.input_role.fill(role);
+  }
+
+  async fill_inputCompanyLocation(companyLocation) {
+    await this.input_companyLocation.fill(companyLocation);
+  }
+
+  async fill_inputCompanyDescription(companyDescription) {
+    await this.input_companyDescription.fill(companyDescription);
+  }
+
+  async fill_inputStartDate() {
+    await this.option_monthStartDate.click();
+    await this.select_monthStartDate.click();
+
+    await this.option_yearStartDate.click();
+    await this.select_yearStartDate.click();
+  }
+
+  async fill_inputEndDate() {
+    await this.option_monthEndDate.click();
+    await this.select_monthEndDate.click();
+
+    await this.option_yearEndDate.click();
+    await this.select_yearEndDate.click();
+  }
+
+  async fill_inputRoleDescription(roleDescription) {
+    await this.input_roleDescription.fill(roleDescription);
+  }
+
+  async visible_previewCompanyName() {
+    await expect(this.txt_previewCompanyName).toBeVisible();
+  }
+
+  async visible_previewCompanyLocation() {
+    await expect(this.txt_previewCompanyLocation).toBeVisible();
+  }
+
+  async visible_previewRole() {
+    await expect(this.txt_previewRole).toBeVisible();
+  }
+
+  async visible_previewCompanyDescription() {
+    await expect(this.txt_previewCompanyDescription).toBeVisible();
+  }
+
+  async visible_previewRoleDescription() {
+    await expect(this.txt_previewRoleDescription).toBeVisible();
+  }
+};
+exports.stepResume_education = class stepResume_education {
+  constructor(
+    page,
+    schoolStartMonth,
+    schoolStartYear,
+    schoolEndMonth,
+    schoolEndYear,
+    educationLevel,
+    schoolName,
+    schoolLocation,
+    major,
+    GPA,
+    maxGPA,
+    schoolActivity
+  ) {
+    this.page = page;
+
+    this.btn_addEducation = page.getByRole("button", { name: "Add education" });
+    this.input_schoolName = page.locator("//input[@id='school-name']");
+    this.input_schoolLocation = page.locator("//input[@id='school-location']");
+    this.option_schoolStartMonth = page.locator(
+      "//div[normalize-space()='Education Level']/ancestor::div[@class='container']/descendant::input[@id='start-date-month']"
+    );
+    this.select_schoolStartMonth = page.getByRole("option", {
+      name: schoolStartMonth,
+    });
+    this.option_schoolStartYear = page.locator(
+      "//div[normalize-space()='Education Level']/ancestor::div[@class='container']/descendant::input[@id='start-date-year']"
+    );
+    this.select_schoolStartYear = page.getByRole("option", {
+      name: schoolStartYear,
+    });
+    this.option_schoolEndMonth = page.locator(
+      "//input[@id='graduation-date-month']"
+    );
+    this.select_schoolEndMonth = page.getByRole("option", {
+      name: schoolEndMonth,
+    });
+    this.option_schoolEndYear = page.locator(
+      "//input[@id='graduation-date-year']"
+    );
+    this.select_schoolEndYear = page.getByRole("option", {
+      name: schoolEndYear,
+    });
+    this.option_educationLevel = page.locator("//input[@id='education-level']");
+    this.select_educationLevel = page.getByText(educationLevel);
+    this.input_Major = page.getByPlaceholder("Information System", {
+      exact: false,
+    });
+    this.input_GPA = page.locator("//input[@id='gpa-recommended']");
+    this.input_maxGPA = page.locator("//input[@id='max-gpa']");
+    this.input_schoolActivity = page.locator("#elaboration-list-education0");
+    this.txt_previewSchoolName = page.getByText(schoolName, { exact: true });
+    this.txt_previewSchoolLocation = page.getByText("- " + schoolLocation);
+    this.txt_previewSchoolPeriod = page.getByRole("cell", {
+      name:
+        schoolStartMonth +
+        " " +
+        schoolStartYear +
+        " - " +
+        schoolEndMonth +
+        " " +
+        schoolEndYear,
+    });
+    this.txt_previewSchoolDetails = page.getByText(
+      educationLevel + " of " + major + ", " + GPA + "/" + maxGPA
+    );
+    this.txt_previewSchoolActivity = page
+      .locator("#pdf")
+      .getByText(schoolActivity);
+  }
+
+  async click_buttonAddEducation() {
+    await this.btn_addEducation.click();
+  }
+
+  async fill_inputSchoolName(schoolName) {
+    await this.input_schoolName.fill(schoolName);
+    await this.input_schoolName.press("Enter");
+  }
+
+  async fill_inputSchoolLocation(schoolLocation) {
+    await this.input_schoolLocation.fill(schoolLocation);
+  }
+
+  async fill_inputSchoolStartDate() {
+    await this.option_schoolStartMonth.click();
+    await this.select_schoolStartMonth.click();
+
+    await this.option_schoolStartYear.click();
+    await this.select_schoolStartYear.click();
+  }
+
+  async fill_inputSchoolEndDate() {
+    await this.option_schoolEndMonth.click();
+    await this.select_schoolEndMonth.click();
+
+    await this.option_schoolEndYear.click();
+    await this.select_schoolEndYear.click();
+  }
+
+  async fill_inputEducationLevel() {
+    await this.option_educationLevel.click();
+    await this.select_educationLevel.click();
+  }
+
+  async fill_inputMajor(major) {
+    await this.input_Major.fill(major);
+  }
+
+  async fill_inputGPA(GPA, maxGPA) {
+    await this.input_GPA.fill(GPA);
+    await this.input_maxGPA.fill(maxGPA);
+  }
+
+  async fill_inputSchoolActivity(schoolActivity) {
+    await this.input_schoolActivity.fill(schoolActivity);
+  }
+
+  async visible_previewSchoolName() {
+    await expect(this.txt_previewSchoolName).toBeVisible();
+  }
+
+  async visible_previewSchoolPeriod() {
+    await expect(this.txt_previewSchoolPeriod).toBeVisible();
+  }
+
+  async visible_previewSchoolDetails() {
+    await expect(this.txt_previewSchoolDetails).toBeVisible();
+  }
+
+  async visible_previewSchoolActivity() {
+    await expect(this.txt_previewSchoolActivity).toBeVisible();
   }
 };
