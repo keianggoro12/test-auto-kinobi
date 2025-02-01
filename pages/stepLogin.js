@@ -102,7 +102,7 @@ exports.stepRegister = class stepRegister {
       "//button[span/span[text()='Sign up']]"
     );
     this.toast_signupModal = page.getByText(
-      "Created Your Profile Successfully!"
+      "Created your profile successfully."
     );
 
     this.verifyEmail_button = page.locator(
@@ -186,6 +186,9 @@ exports.stepRegister = class stepRegister {
     await this.signupModal_button.click();
   }
   async visible_toast_signupModal() {
+    await this.toast_signupModal.waitFor({ state: "visible", timeout: 5000 });
     await expect(this.toast_signupModal).toBeVisible();
+
+  
   }
 };
