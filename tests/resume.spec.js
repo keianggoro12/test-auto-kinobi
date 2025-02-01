@@ -6,6 +6,8 @@ import {
   stepResume_personalDetails,
   stepResume_workExperiences,
   stepResume_education,
+  stepResume_organization,
+  stepResume_others,
 } from "../pages/stepResume";
 
 const dataURL = require("../testData/dataURL.json");
@@ -20,10 +22,15 @@ test.describe("TS-2: Resume", () => {
     personalPage,
     workPage,
     educationPage,
+    organizationPage,
+    othersPage,
     touPanel;
+
   const personalInfo = dataResume["Personal Information"];
   const workInfo = dataResume["Work Experiences"];
   const educationInfo = dataResume["Education"];
+  const organizationInfo = dataResume["Organization"];
+  const othersInfo = dataResume["Others"];
 
   test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
@@ -64,6 +71,24 @@ test.describe("TS-2: Resume", () => {
       educationInfo.GPA,
       educationInfo.MaxGPA,
       educationInfo.SchoolActivity
+    );
+    organizationPage = new stepResume_organization(
+      page,
+      organizationInfo.OrganizationStartMonth,
+      organizationInfo.OrganizationStartYear,
+      organizationInfo.OrganizationEndMonth,
+      organizationInfo.OrganizationEndYear,
+      organizationInfo.OrganizationName,
+      organizationInfo.OrganizationLocation,
+      organizationInfo.OrganizationRole,
+      organizationInfo.OrganizationDescription,
+      organizationInfo.OrganizationRoleDescription
+    );
+    othersPage = new stepResume_others(
+      page,
+      othersInfo.OthersType,
+      othersInfo.OthersYear,
+      othersInfo.OtherElaboration
     );
 
     console.log("Opening URL...");
@@ -170,6 +195,63 @@ test.describe("TS-2: Resume", () => {
     await educationPage.visible_previewSchoolDetails();
     await educationPage.visible_previewSchoolActivity();
     console.log("Education preview verified successfully.");
+
+    await resumePage.click_buttonSaveAndContinue();
+  });
+
+  // Test Case 5: Isi Organizational Experience
+  test("TC-5: Organizational experience", async () => {
+    console.log("Filling organizational experience...");
+
+    await organizationPage.click_buttonAddOrgatization();
+    await organizationPage.fill_inputOrganizationName(
+      organizationInfo.OrganizationName
+    );
+    await organizationPage.fill_inputOrganizationRole(
+      organizationInfo.OrganizationRole
+    );
+    await organizationPage.fill_inputOrganizationDescription(
+      organizationInfo.OrganizationDescription
+    );
+    await organizationPage.fill_inputOrganizationLocation(
+      organizationInfo.OrganizationLocation
+    );
+    await organizationPage.fill_inputOrganizationStartDate();
+    await organizationPage.fill_inputOrganizationEndDate();
+    await organizationPage.fill_inputOrganizationRoleDescription(
+      organizationInfo.OrganizationRoleDescription
+    );
+
+    console.log("Organizational experience filled successfully.");
+
+    console.log("Verifying organizational experience preview...");
+    await organizationPage.visible_previewOrganizationName();
+    await organizationPage.visible_previewOrganizationLocation();
+    await organizationPage.visible_previewOrganizationPeriod();
+    await organizationPage.visible_previewOrganizationRole();
+    await organizationPage.visible_previewOrganizationDescription();
+    await organizationPage.visible_previewOrganizationRoleDescription();
+    console.log("Organizational experience preview verified successfully.");
+
+    await resumePage.click_buttonSaveAndContinue();
+  });
+
+  // Test Case 6: Isi Other Section
+  test("TC-6: Other section", async () => {
+    console.log("Filling other section...");
+
+    await othersPage.click_buttonAddOthers();
+    await othersPage.fill_inputOthersType();
+    await othersPage.fill_inputOthersYear();
+    await othersPage.fill_inputOthersElaboration(othersInfo.OtherElaboration);
+
+    console.log("Other section filled successfully.");
+
+    console.log("Verifying other section preview...");
+    await othersPage.visible_previewOthersType();
+    await othersPage.visible_previewOthersYear();
+    await othersPage.visible_previewOthersElaboration();
+    console.log("Other section preview verified successfully.");
 
     await resumePage.click_buttonSaveAndContinue();
   });

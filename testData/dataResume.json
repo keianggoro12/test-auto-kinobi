@@ -32,5 +32,21 @@
     "GPA": "3.92",
     "MaxGPA": "4.00",
     "SchoolActivity": "Dean List Honorable Mention Spring 2020"
+  },
+  "Organization": {
+    "OrganizationName": "CentennialZ",
+    "OrganizationRole": "Partnership Manager",
+    "OrganizationDescription": "Gen Z empowerment platform",
+    "OrganizationLocation": "Jakarta",
+    "OrganizationStartMonth": "Dec",
+    "OrganizationStartYear": "2022",
+    "OrganizationEndMonth": "Jun",
+    "OrganizationEndYear": "2023",
+    "OrganizationRoleDescription": "Being responsible for identifying, developing, and maintaining strategic partnerships that align with the organization's goals and objectives."
+  },
+  "Others": {
+    "OthersType": "Achievements",
+    "OthersYear": "2020",
+    "OtherElaboration": "Winner of Outstanding Student Selection"
   }
 }

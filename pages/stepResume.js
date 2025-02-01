@@ -442,3 +442,207 @@ exports.stepResume_education = class stepResume_education {
     await expect(this.txt_previewSchoolActivity).toBeVisible();
   }
 };
+
+exports.stepResume_organization = class stepResume_organization {
+  constructor(
+    page,
+    organizationStartMonth,
+    organizationStartYear,
+    organizationEndMonth,
+    organizationEndYear,
+    organizationName,
+    organizationLocation,
+    organizationRole,
+    organizationDescription,
+    organizationRoleDescription
+  ) {
+    this.page = page;
+    this.btn_addOrganization = page.getByRole("button", {
+      name: "Add experience",
+    });
+    this.input_organizationName = page.locator(
+      "//input[@id='organization-name']"
+    );
+    this.input_organizationRole = page.locator(
+      "//input[@id='your-role-title']"
+    );
+    this.input_organizationDescription = page.locator(
+      "//textarea[@id='organisation-description']"
+    );
+    this.input_organizationLocation = page.locator(
+      "//input[@id='organization-location']"
+    );
+    this.option_organizationStartMonth = page.locator(
+      "//div[normalize-space()='Organisational Experience']/ancestor::div[@class='container']/descendant::input[@id='start-date-month']"
+    );
+    this.select_organizationStartMonth = page.getByRole("option", {
+      name: organizationStartMonth,
+    });
+    this.option_organizationStartYear = page.locator(
+      "//div[normalize-space()='Organisational Experience']/ancestor::div[@class='container']/descendant::input[@id='start-date-year']"
+    );
+    this.select_organizationStartYear = page.getByRole("option", {
+      name: organizationStartYear,
+    });
+    this.btn_dateCurrentStillActive = page
+      .locator("div")
+      .filter({ hasText: /^I am currently active here$/ })
+      .nth(2);
+    this.option_organizationEndMonth = page.locator(
+      "//div[normalize-space()='Organisational Experience']/ancestor::div[@class='container']/descendant::input[@id='end-date-month']"
+    );
+    this.select_organizationEndMonth = page.getByRole("option", {
+      name: organizationEndMonth,
+    });
+    this.option_organizationEndYear = page.locator(
+      "//div[normalize-space()='Organisational Experience']/ancestor::div[@class='container']/descendant::input[@id='end-date-year']"
+    );
+    this.select_organizationEndYear = page.getByRole("option", {
+      name: organizationEndYear,
+    });
+    this.input_organizationRoleDescription = page.locator(
+      "#elaboration-list-leadership_experience0"
+    );
+    this.txt_previewOrganizationName = page.getByText(organizationName, {
+      exact: true,
+    });
+    this.txt_previewOrganizationLocation = page.getByText(
+      "- " + organizationLocation
+    );
+    this.txt_previewOrganizationPeriod = page.getByRole("cell", {
+      name:
+        organizationStartMonth +
+        " " +
+        organizationStartYear +
+        " - " +
+        organizationEndMonth +
+        " " +
+        organizationEndYear,
+    });
+    this.txt_previewOrganizationRole = page.getByText(organizationRole, {
+      exact: true,
+    });
+    this.txt_previewOrganizationDescription = page.getByText(
+      organizationDescription
+    );
+    this.txt_previewOrganizationRoleDescription = page
+      .locator("#pdf")
+      .getByText(organizationRoleDescription);
+  }
+
+  async click_buttonAddOrgatization() {
+    await this.btn_addOrganization.click();
+  }
+  async fill_inputOrganizationName(organizationName) {
+    await this.input_organizationName.fill(organizationName);
+  }
+  async fill_inputOrganizationRole(organizationRole) {
+    await this.input_organizationRole.fill(organizationRole);
+  }
+  async fill_inputOrganizationDescription(organizationDescription) {
+    await this.input_organizationDescription.fill(organizationDescription);
+  }
+
+  async fill_inputOrganizationLocation(organizationLocation) {
+    await this.input_organizationLocation.fill(organizationLocation);
+  }
+
+  async fill_inputOrganizationStartDate() {
+    await this.option_organizationStartMonth.click();
+    await this.select_organizationStartMonth.click();
+
+    await this.option_organizationStartYear.click();
+    await this.select_organizationStartYear.click();
+  }
+
+  async fill_inputOrganizationEndDate() {
+    await this.btn_dateCurrentStillActive.click();
+
+    await this.option_organizationEndMonth.click();
+    await this.select_organizationEndMonth.click();
+
+    await this.option_organizationEndYear.click();
+    await this.select_organizationEndYear.click();
+  }
+
+  async fill_inputOrganizationRoleDescription(organizationRoleDescription) {
+    await this.input_organizationRoleDescription.fill(
+      organizationRoleDescription
+    );
+  }
+
+  async visible_previewOrganizationName() {
+    await expect(this.txt_previewOrganizationName).toBeVisible();
+  }
+
+  async visible_previewOrganizationLocation() {
+    await expect(this.txt_previewOrganizationLocation).toBeVisible();
+  }
+
+  async visible_previewOrganizationPeriod() {
+    await expect(this.txt_previewOrganizationPeriod).toBeVisible();
+  }
+
+  async visible_previewOrganizationRole() {
+    await expect(this.txt_previewOrganizationRole).toBeVisible();
+  }
+
+  async visible_previewOrganizationDescription() {
+    await expect(this.txt_previewOrganizationDescription).toBeVisible();
+  }
+  async visible_previewOrganizationRoleDescription() {
+    await expect(this.txt_previewOrganizationRoleDescription).toBeVisible();
+  }
+};
+
+exports.stepResume_others = class stepResume_others {
+  constructor(page, othersType, othersYear, othersElaboration) {
+    this.page = page;
+    this.btn_addOthers = page.getByRole("button", { name: "Add experience" });
+    this.option_othersType = page.locator("//input[@id='category']");
+    this.select_othersType = page.getByRole("option", { name: othersType });
+    this.option_othersYear = page.locator("//input[@id='experience-year']");
+    this.select_othersYear = page.getByRole("option", { name: othersYear });
+    this.input_othersElaboration = page.locator(
+      "//div[normalize-space()='Elaboration']/following-sibling::div/descendant::input"
+    );
+    this.txt_previewOthersType = page
+      .locator("#pdf")
+      .getByText(othersType, { exact: true });
+    this.txt_previewOthersYear = page.getByText("(" + othersYear + ")");
+    this.txt_previewOthersElaboration = page.getByText(
+      ": " + othersElaboration
+    );
+  }
+
+  async click_buttonAddOthers() {
+    await this.btn_addOthers.waitFor({ state: "visible", timeout: 5000 });
+    await this.btn_addOthers.click();
+  }
+
+  async fill_inputOthersType() {
+    await this.option_othersType.click();
+    await this.select_othersType.click();
+  }
+
+  async fill_inputOthersYear() {
+    await this.option_othersYear.click();
+    await this.select_othersYear.click();
+  }
+
+  async fill_inputOthersElaboration(othersElaboration) {
+    await this.input_othersElaboration.fill(othersElaboration);
+  }
+
+  async visible_previewOthersType() {
+    await expect(this.txt_previewOthersType).toBeVisible();
+  }
+
+  async visible_previewOthersYear() {
+    await expect(this.txt_previewOthersYear).toBeVisible();
+  }
+
+  async visible_previewOthersElaboration() {
+    await expect(this.txt_previewOthersElaboration).toBeVisible();
+  }
+};
