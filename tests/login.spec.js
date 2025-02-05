@@ -74,6 +74,7 @@ test.describe("TS-1: Login", () => {
 test.describe("TS-2: Register", () => {
   let page, context, loginPage, touPanel, registerPage, onBoardPanel;
 
+
   // Membuat context dan page sebelum semua tes
   test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
@@ -88,6 +89,7 @@ test.describe("TS-2: Register", () => {
     console.log("URL opened successfully.");
   });
 
+
   // TC-1: Test untuk login dengan disable login - no data
   test("TS-: Register", async () => {
     await registerPage.click_buttonSignUp();
@@ -100,7 +102,6 @@ test.describe("TS-2: Register", () => {
     await registerPage.visible_toast_signupModal();
     await touPanel.handle_termsOfUse();
     await onBoardPanel.handle_OnbBoarding();
-
   });
 
   // Menutup semua resource setelah semua tes selesai
