@@ -6,7 +6,7 @@ exports.stepTou = class stepTou {
     this.modal_tou = page.locator(".v-dialog.v-dialog--active");
     this.touPanels = page.locator(".v-expansion-panel");
     this.btn_saveContinue = page.locator(
-      "//button[span[contains(text(), 'Save & Continue')]]"
+      "//button[@data-v-778fbb75 and span[contains(text(), 'Save & Continue')]]"
     );
     this.icon_checkbox_blank = ".v-input--selection-controls__ripple";
   }

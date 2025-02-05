@@ -90,11 +90,20 @@ exports.stepRegister = class stepRegister {
     this.signup_student_button = page.getByRole("menuitem", {
       name: "Sign up as Student",
     });
-    this.firstName_field = page.getByRole();
-    this.lastName_field = page.getByRole();
+    this.firstName_field = page.getByRole("textbox", { name: "First Name" });
+    this.lastName_field = page.getByRole("textbox", { name: "Last Name" });
     this.registrationEmail_field = page.getByRole("textbox", {
       name: "Email Address",
     });
+    this.registerPassword_field = page.getByRole("textbox", {
+      name: "Password",
+    });
+    this.signupModal_button = page.locator(
+      "//button[span/span[text()='Sign up']]"
+    );
+    this.toast_signupModal = page.getByText(
+      "Created your profile successfully."
+    );
 
     this.verifyEmail_button = page.locator(
       "//button[.//span[contains(text(), 'Verify')]]"
@@ -160,5 +169,26 @@ exports.stepRegister = class stepRegister {
     // 8️⃣ Refresh and check if email is verified
     await this.refreshEmail_button.click();
     await this.verifiedEmail_notif.waitFor();
+  }
+  async verifySignupModal() {
+    await expect(this.signup_modal).toBeVisible();
+  }
+  async fill_inputFirstName(firstname) {
+    await this.firstName_field.fill(firstname);
+  }
+  async fill_inputLastName(lastname) {
+    await this.lastName_field.fill(lastname);
+  }
+  async fill_inputPassword(password) {
+    await this.registerPassword_field.fill(password);
+  }
+  async click_signupModal() {
+    await this.signupModal_button.click();
+  }
+  async visible_toast_signupModal() {
+    await this.toast_signupModal.waitFor({ state: "visible", timeout: 5000 });
+    await expect(this.toast_signupModal).toBeVisible();
+
+  
   }
 };
