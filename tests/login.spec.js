@@ -71,47 +71,47 @@ test.describe("TS-1: Login", () => {
   });
 });
 
-// test.describe("TS-2: Register", () => {
-//   let page, context, loginPage, touPanel, registerPage;
+test.describe("TS-2: Register", () => {
+  let page, context, loginPage, touPanel, registerPage;
 
-//   // Membuat context dan page sebelum semua tes
-//   test.beforeAll(async ({ browser }) => {
-//     context = await browser.newContext();
-//     page = await context.newPage();
-//     loginPage = new stepLogin(page);
-//     touPanel = new stepTou(page);
-//     registerPage = new stepRegister(page);
+  // Membuat context dan page sebelum semua tes
+  test.beforeAll(async ({ browser }) => {
+    context = await browser.newContext();
+    page = await context.newPage();
+    loginPage = new stepLogin(page);
+    touPanel = new stepTou(page);
+    registerPage = new stepRegister(page);
 
-//     console.log("Opening URL...");
-//     await loginPage.openUrl(dataURL.URL);
-//     console.log("URL opened successfully.");
-//   });
+    console.log("Opening URL...");
+    await loginPage.openUrl(dataURL.URL);
+    console.log("URL opened successfully.");
+  });
 
-//   // TC-1: Test untuk login dengan disable login - no data
-//   test("TS-: Register", async () => {
-//     await registerPage.click_buttonSignUp();
-//     await registerPage.verifySignupModal();
-//     await registerPage.fill_inputFirstName(dataLogin.firstname);
-//     await registerPage.fill_inputLastName(dataLogin.lastname);
-//     await registerPage.registerAndVerifyEmail();
-//     await registerPage.fill_inputPassword(dataLogin.password);
-//     await registerPage.click_signupModal();
-//   });
+  // TC-1: Test untuk login dengan disable login - no data
+  test("TS-: Register", async () => {
+    await registerPage.click_buttonSignUp();
+    await registerPage.verifySignupModal();
+    await registerPage.fill_inputFirstName(dataLogin.firstname);
+    await registerPage.fill_inputLastName(dataLogin.lastname);
+    await registerPage.registerAndVerifyEmail();
+    await registerPage.fill_inputPassword(dataLogin.password);
+    await registerPage.click_signupModal();
+  });
 
-//   // Menutup semua resource setelah semua tes selesai
-//   test.afterAll(async () => {
-//     try {
-//       console.log("Closing all resources...");
-//       if (page) {
-//         await page.close();
-//         console.log("Page closed.");
-//       }
-//       if (context) {
-//         await context.close();
-//         console.log("Context closed.");
-//       }
-//     } catch (error) {
-//       console.error("Error during cleanup:", error.message);
-//     }
-//   });
-// });
+  // Menutup semua resource setelah semua tes selesai
+  test.afterAll(async () => {
+    try {
+      console.log("Closing all resources...");
+      if (page) {
+        await page.close();
+        console.log("Page closed.");
+      }
+      if (context) {
+        await context.close();
+        console.log("Context closed.");
+      }
+    } catch (error) {
+      console.error("Error during cleanup:", error.message);
+    }
+  });
+});
