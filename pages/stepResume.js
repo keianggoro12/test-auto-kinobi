@@ -198,9 +198,9 @@ exports.stepResume_workExperiences = class stepResume_workExperiences {
     roleDescription
   ) {
     this.page = page;
-    this.btn_addExperience = page.getByRole("button", {
-      name: "Add experience",
-    });
+    this.btn_addExperience = page.locator(
+      "//div[@data-v-126f118b]//button[@data-v-3e49a3d4 and .//span[contains(text(), 'Add experience')]]"
+    );
     this.input_companyName = page.locator("//input[@id='company-name']");
     this.input_role = page.locator("//input[@id='job-title']");
     this.input_companyLocation = page.locator(
