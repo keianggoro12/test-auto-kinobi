@@ -188,7 +188,5 @@ exports.stepRegister = class stepRegister {
   async visible_toast_signupModal() {
     await this.toast_signupModal.waitFor({ state: "visible", timeout: 5000 });
     await expect(this.toast_signupModal).toBeVisible();
-
-  
   }
 };

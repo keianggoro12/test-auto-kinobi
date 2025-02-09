@@ -47,11 +47,11 @@ test.describe("TS-1: Login", () => {
   });
 
   // TC-4: Test untuk logout
-  // test("TC-4: Test log out as student", async () => {
-  //   await loginPage.click_threeDotsButton();
-  //   await loginPage.click_logout();
-  //   await loginPage.visible_buttonLogin();
-  // });
+  test("TC-4: Test log out as student", async () => {
+    await loginPage.click_threeDotsButton();
+    await loginPage.click_logout();
+    await loginPage.visible_buttonLogin();
+  });
 
   // Menutup semua resource setelah semua tes selesai
   test.afterAll(async () => {
@@ -74,7 +74,6 @@ test.describe("TS-1: Login", () => {
 test.describe("TS-2: Register", () => {
   let page, context, loginPage, touPanel, registerPage, onBoardPanel;
 
-
   // Membuat context dan page sebelum semua tes
   test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
@@ -88,7 +87,6 @@ test.describe("TS-2: Register", () => {
     await loginPage.openUrl(dataURL.URL);
     console.log("URL opened successfully.");
   });
-
 
   // TC-1: Test untuk login dengan disable login - no data
   test("TS-: Register", async () => {

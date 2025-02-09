@@ -9,6 +9,7 @@ import {
   stepResume_organization,
   stepResume_others,
 } from "../pages/stepResume";
+import { getFeatureStatus } from "../helper/requestAPI";
 
 const dataURL = require("../testData/dataURL.json");
 const dataLogin = require("../testData/dataLogin.json");
@@ -106,6 +107,15 @@ test.describe("TS-2: Resume", () => {
 
   // Test Case 0: Buat resume baru tanpa title
   test("TC-0: Create resume with blank title", async () => {
+    //function for checking resume builder
+    console.log("Checking feature status for resume-builder...");
+    const isResumeEnabled = await getFeatureStatus("resume-builder");
+    console.log("Resume-builder feature status:", isResumeEnabled);
+    if (!isResumeEnabled) {
+      console.log("🚫 Resume Builder feature is disabled, skipping tests...");
+      return; // Skip test jika fitur tidak aktif
+    }
+
     await resumePage.handle_btnResumeBuilder();
     await resumePage.handle_btnNewResume();
     await resumePage.handle_btnNewResumeBlank();
