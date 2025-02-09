@@ -199,7 +199,7 @@ exports.stepResume_workExperiences = class stepResume_workExperiences {
   ) {
     this.page = page;
     this.btn_addExperience = page.locator(
-      "//div[@data-v-126f118b]//button[@data-v-3e49a3d4 and .//span[contains(text(), 'Add experience')]]"
+      "//div[@data-v-19a8b42a]//button[contains(@class, 'v-btn') and contains(., 'Add experience')]"
     );
     this.input_companyName = page.locator("//input[@id='company-name']");
     this.input_role = page.locator("//input[@id='job-title']");
@@ -598,7 +598,9 @@ exports.stepResume_organization = class stepResume_organization {
 exports.stepResume_others = class stepResume_others {
   constructor(page, othersType, othersYear, othersElaboration) {
     this.page = page;
-    this.btn_addOthers = page.getByRole("button", { name: "Add experience" });
+    this.btn_addOthers = page.locator(
+      "//div[@data-v-126f118b]//button[contains(@class, 'v-btn') and contains(., 'Add experience')]"
+    );
     this.option_othersType = page.locator("//input[@id='category']");
     this.select_othersType = page.getByRole("option", { name: othersType });
     this.option_othersYear = page.locator("//input[@id='experience-year']");
@@ -644,5 +646,105 @@ exports.stepResume_others = class stepResume_others {
 
   async visible_previewOthersElaboration() {
     await expect(this.txt_previewOthersElaboration).toBeVisible();
+  }
+};
+
+exports.stepResume_review = class stepResume_review {
+  constructor(page) {
+    this.page = page;
+    this.txt_tabHeader = page.getByText("Review your Resume");
+    this.txt_resumeScore = page
+      .locator("span")
+      .filter({ hasText: ", your overall resume score is" });
+    this.btn_saveAsDraft = page.getByRole("button", { name: "Save as Draft" });
+    this.btn_completeDownload = page.getByRole("button", {
+      name: "Complete & Download",
+    });
+    this.txt_resumeDownloaded = page.getByText("Congratulations!");
+    this.txt_resumeCompleted = page.getByText(
+      "Your resume has been successfully saved, and you're all set"
+    );
+    this.btn_closeDialogBox = page.locator("#btn_close");
+    this.btn_startYourJourney = page.getByRole("button", {
+      name: "Start Your Journey",
+    });
+    this.btn_backToResumeBuilder = page.getByRole("button", {
+      name: "Back to resume builder",
+    });
+    this.txt_resumeTitle = page.getByText("Resume Title");
+    this.txt_reviewYourResume = page.getByText("Review your Resume");
+    this.section_personalInformation = page.getByRole("button", {
+      name: "Personal Information",
+      exact: false,
+    });
+    this.section_professionalExperience = page.getByRole("button", {
+      name: "Professional Experience",
+      exact: false,
+    });
+    this.section_education = page.getByRole("button", {
+      name: "Education",
+      exact: false,
+    });
+    this.section_organisational = page.getByRole("button", {
+      name: "Organisational Experience",
+      exact: false,
+    });
+    this.section_others = page.getByRole("button", {
+      name: "Skills, Achievements & Other Experience",
+      exact: false,
+    });
+  }
+  async visible_txtTabHeader() {
+    await expect(this.txt_tabHeader).toBeVisible();
+  }
+
+  async visible_txtResumeScore() {
+    await expect(this.txt_resumeScore).toBeVisible();
+  }
+
+  async visible_buttonSaveAsDraft() {
+    await expect(this.btn_saveAsDraft).toBeVisible();
+  }
+
+  async visible_buttonCompleteDownload() {
+    await expect(this.btn_completeDownload).toBeVisible();
+  }
+
+  async click_buttonCompleteDownload() {
+    await this.btn_completeDownload.click();
+  }
+
+  async visible_txtResumeDownloaded() {
+    await expect(this.txt_resumeDownloaded).toBeVisible();
+  }
+
+  async visible_txtResumeCompleted() {
+    await expect(this.txt_resumeCompleted).toBeVisible();
+  }
+
+  async visible_buttonCloseDialogBox() {
+    await expect(this.btn_closeDialogBox).toBeVisible();
+  }
+
+  async click_buttonSaveAsDraft() {
+    await this.btn_saveAsDraft.click();
+  }
+
+  async click_buttonStartYourJourney() {
+    await this.btn_startYourJourney.click();
+  }
+
+  async click_buttonBackToResumeBuilder() {
+    await this.btn_backToResumeBuilder.click();
+  }
+
+  async visible_sectionReview() {
+    await expect(this.txt_resumeTitle).toBeVisible();
+    await expect(this.txt_reviewYourResume).toBeVisible();
+    await expect(this.section_personalInformation).toBeVisible();
+    await expect(this.section_professionalExperience).toBeVisible();
+    await expect(this.section_education).toBeVisible();
+    await expect(this.section_organisational).toBeVisible();
+    await expect(this.section_others).toBeVisible();
   }
 };

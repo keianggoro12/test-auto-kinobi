@@ -8,6 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.9",
     "dotenv": "^16.4.7",
     "he": "^1.2.0",
     "html-entities": "^2.5.2",
