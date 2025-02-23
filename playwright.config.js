@@ -33,15 +33,15 @@ module.exports = defineConfig({
       use: { ...devices["Desktop Chrome"] }, // Use Desktop Chrome settings
     },
 
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] }, // Use Desktop Firefox settings
-    },
+    // {
+    //   name: "firefox",
+    //   use: { ...devices["Desktop Firefox"] }, // Use Desktop Firefox settings
+    // },
 
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] }, // Use Desktop Safari settings
-    },
+    // {
+    //   name: "webkit",
+    //   use: { ...devices["Desktop Safari"] }, // Use Desktop Safari settings
+    // },
 
     /* Testing on mobile devices */
     // {
