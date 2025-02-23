@@ -1,7 +1,13 @@
 {
-  "email": "juliardi+kenshi@kinobi.asia",
+  "email": "juliardi+yuuri@kinobi.asia",
   "invalid_password": "Kiboni@12345",
   "password": "Kinobi@12345",
   "firstname": "aisha test 4",
-  "lastname": "Auto test 5"
+  "lastname": "Auto test 5",
+  "email_admin": "teja@kinobi.asia",
+  "password_admin": "@Kinobi22222",
+  "email_super_admin": "aisha+autoadmin@kinobi.asia",
+  "email_normal_admin": "aisha+autonormaladmin@kinobi.asia",
+  "email_company_admin": "aisha+autocompanyadmin@kinobi.asia",
+  "password_success_all_admin": "Kinobi@12345"
 }

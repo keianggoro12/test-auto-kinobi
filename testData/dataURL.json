@@ -1,3 +1,7 @@
 {
-  "URL": "https://sim-staging.app.kinobi.asia/"
+  "email_admin": "juliardi@kinobi.asia",
+  "password_admin": "Kinobi@12345",
+  "URL": "https://sim-staging.app.kinobi.asia/",
+  "apiURL": "https://sim-staging.server.kinobi.asia/api/",
+  "ClientID": "sim"
 }

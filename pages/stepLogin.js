@@ -45,7 +45,10 @@ exports.stepLogin = class stepLogin {
     await this.login_button.click();
     await this.login_student_button.click();
   }
-
+  async click_buttonLoginAdmin() {
+    await this.login_button.click();
+    await this.login_admin_button.click();
+  }
   async fill_inputEmail(email) {
     await this.email_field.fill(email);
   }
@@ -188,7 +191,5 @@ exports.stepRegister = class stepRegister {
   async visible_toast_signupModal() {
     await this.toast_signupModal.waitFor({ state: "visible", timeout: 5000 });
     await expect(this.toast_signupModal).toBeVisible();
-
-  
   }
 };
